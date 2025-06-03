@@ -66,23 +66,36 @@
       margin-top: 30px;
     }
 
+    .nad {
+      width: 30%;
+      border-radius: 50%;
+      margin-top: 30px;
+    }
+
     @media (max-width: 600px) {
       .queue, .eaten {
         display: block;
         margin: 10px auto;
       }
+      .nad {
+      width: 80%;
+      border-radius: 50%;
+      margin-top: 30px;
+    }
     }
   </style>
 </head>
 <body>
   <h1>Зʼїм тебе за гроші!</h1>
-  <p>Стань наступним у черзі, кого я зʼїм! Забронюй своє місце лише за 9.99$!</p>
+  <p>Стань наступним у черзі, кого я зʼїм! Забронюй своє місце лише за 10грн!</p>
+  <p>Пиши @nad_tum щоб отримати реквізити!</p>
 
-  <img src="/static/1.jpg" alt="Надя" />
+  <img class="nad" src="/static/1.jpg" alt="Надя" />
   <p><strong>Запис у чергу йде саме до цієї пані ⬆️</strong></p>
 
   <div>
-    <input type="text" id="nameInput" placeholder="Введи своє ім'я або 'nadia'">
+    <input type="text" id="nameInput" placeholder="Введи своє ім'я">
+    <br>
     <button onclick="handleInput()">Забронювати себе на зʼїдання</button>
   </div>
 
@@ -102,7 +115,7 @@
     <button onclick="eatUser()">Зʼїсти</button>
     <button onclick="clearAll()">Очистити все</button>
   </div>
-
+  <br>
   <img src="/static/2.png" alt="Мем готуйте пенсію" />
 
   <script>
