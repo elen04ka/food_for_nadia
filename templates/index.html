@@ -11,23 +11,46 @@
       text-align: center;
       padding: 20px;
     }
+
     h1 {
       font-size: 2.5em;
       color: #e63946;
     }
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+
+    .nadia-photo {
+      margin-top: 10px;
+      max-width: 250px;
+      border-radius: 50%;
+      border: 4px solid #e63946;
     }
-    input[type="text"] {
+
+    .caption {
+      margin-top: 5px;
+      font-style: italic;
+      color: #555;
+    }
+
+    .queue, .eaten {
+      margin-top: 30px;
+      background: #ffe5ec;
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+      text-align: left;
+      margin: 10px;
+      min-width: 280px;
+      max-width: 90vw;
+    }
+
+    input[type="text"], select {
       padding: 10px;
       font-size: 1em;
-      width: 250px;
+      width: 80%;
+      max-width: 300px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      margin-top: 20px;
     }
+
     button {
       padding: 10px 20px;
       font-size: 1em;
@@ -35,38 +58,62 @@
       color: white;
       border: none;
       border-radius: 8px;
-      margin-top: 10px;
+      margin: 10px 5px 0 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #ff4d4d;
     }
-    .queue, .eaten, .admin {
-      margin-top: 30px;
-      background: #ffe5ec;
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-    }
+
     ul {
       list-style-type: none;
       padding: 0;
     }
+
     li::before {
       content: "🍽️ ";
     }
+
     .admin {
+      margin-top: 30px;
       background: #d0f4de;
-      display: none;
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
     }
+
     .admin h3 {
       margin-top: 0;
     }
-    img {
+
+    .meme {
+      margin-top: 40px;
+    }
+
+    .meme img {
       max-width: 100%;
+      height: auto;
       border-radius: 12px;
-      margin: 20px 0;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+      input, button {
+        font-size: 1em;
+        width: 90%;
+      }
+      .queue, .eaten, .admin {
+        width: 90%;
+        margin: 10px auto;
+      }
     }
   </style>
 </head>
