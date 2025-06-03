@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Зʼїм тебе за гроші!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #fff0f5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #e63946;
+    }
+
+    .nadia-photo {
+      margin-top: 10px;
+      max-width: 250px;
+      border-radius: 50%;
+      border: 4px solid #e63946;
+    }
+
+    .caption {
+      margin-top: 5px;
+      font-style: italic;
+      color: #555;
+    }
+
+    .queue, .eaten {
+      margin-top: 30px;
+      background: #ffe5ec;
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+      text-align: left;
+      margin: 10px;
+      min-width: 280px;
+      max-width: 90vw;
+    }
+
+    input[type="text"], select {
+      padding: 10px;
+      font-size: 1em;
+      width: 80%;
+      max-width: 300px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin: 10px 5px 0 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff4d4d;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li::before {
+      content: "🍽️ ";
+    }
+
+    .admin {
+      margin-top: 30px;
+      background: #d0f4de;
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .admin h3 {
+      margin-top: 0;
+    }
+
+    .meme {
+      margin-top: 40px;
+    }
+
+    .meme img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+      input, button {
+        font-size: 1em;
+        width: 90%;
+      }
+      .queue, .eaten, .admin {
+        width: 90%;
+        margin: 10px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Зʼїм тебе за гроші!</h1>
+  <img src="/static/1.jpg" alt="Надя" class="nadia-photo">
+  <div class="caption">Запис у чергу до Наді 😈</div>
+  <p>Хочеш, щоб тебе зʼїли? Забронюй місце у списку! Лише за 10 грн</p>
+  <p>Пиши @nad_tum, щоб отримати реквізити</p>
+
+  <input type="text" id="nameInput" placeholder="Введи своє ім'я або нік">
+  <br>
+  <button onclick="addToQueue()">Забронювати себе на зʼїдання</button>
+  <br>
+
+  <div class="queue">
+    <h2>Наступні в черзі на зʼїдання:</h2>
+    <ul id="eatingQueue"></ul>
+  </div>
+
+  <div class="eaten">
+    <h2>Зʼїдені:</h2>
+    <ul id="eatenList"></ul>
+  </div>
+
+  <div class="admin hidden" id="adminPanel">
+    <h3>Адмінка для Наді</h3>
+    <select id="selectUser"></select>
+    <button onclick="eatUser()">Зʼїсти</button>
+    <button onclick="clearAll()">Очистити все</button>
+  </div>
+
+  <div class="meme">
+    <img src="/static/2.png" alt="Готуйте свою пенсію мем">
+  </div>
+
+  <script>
+    let queue = JSON.parse(localStorage.getItem('eatingQueue')) || [];
+    let eaten = JSON.parse(localStorage.getItem('eatenList')) || [];
+
+    const queueList = document.getElementById('eatingQueue');
+    const eatenList = document.getElementById('eatenList');
+    const selectUser = document.getElementById('selectUser');
+    const adminPanel = document.getElementById('adminPanel');
+
+    function renderQueue() {
+      queueList.innerHTML = '';
+      selectUser.innerHTML = '';
+      queue.forEach((name, index) => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        queueList.appendChild(li);
+
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = name;
+        selectUser.appendChild(option);
+      });
+    }
+
+    function renderEaten() {
+      eatenList.innerHTML = '';
+      eaten.forEach(name => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        eatenList.appendChild(li);
+      });
+    }
+
+    function addToQueue() {
+      const input = document.getElementById('nameInput');
+      const name = input.value.trim();
+
+      if (!name) return;
+
+      if (name.toLowerCase() === 'nadia') {
+        adminPanel.classList.remove('hidden');
+        input.value = '';
+        return;
+      }
+
+      queue.push(name);
+      localStorage.setItem('eatingQueue', JSON.stringify(queue));
+      input.value = '';
+      renderQueue();
+    }
+
+    function eatUser() {
+      const index = selectUser.value;
+      if (index !== '') {
+        const eatenName = queue.splice(index, 1)[0];
+        eaten.push(eatenName);
+        localStorage.setItem('eatingQueue', JSON.stringify(queue));
+        localStorage.setItem('eatenList', JSON.stringify(eaten));
+        renderQueue();
+        renderEaten();
+      }
+    }
+
+    function clearAll() {
+      if (confirm('Ви впевнені, що хочете очистити всі дані?')) {
+        queue = [];
+        eaten = [];
+        localStorage.removeItem('eatingQueue');
+        localStorage.removeItem('eatenList');
+        renderQueue();
+        renderEaten();
+      }
+    }
+
+    renderQueue();
+    renderEaten();
+  </script>
+</body>
+</html>
